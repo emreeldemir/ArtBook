@@ -13,7 +13,7 @@ class ArtAdapter(val artList : ArrayList<Art>) : RecyclerView.Adapter<ArtAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtHolder {
-        val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ArtHolder(binding)
     }
 
