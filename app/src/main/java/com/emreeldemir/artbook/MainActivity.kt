@@ -30,8 +30,11 @@ class MainActivity : AppCompatActivity() {
                 val name = cursor.getString(artNameIx)
                 val id = cursor.getInt(idIx)
                 val art = Art(name, id)
+
+                artList.add(art)
             }
 
+            cursor.close()
 
 
         } catch (e: Exception){
