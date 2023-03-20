@@ -2,10 +2,12 @@ package com.emreeldemir.artbook
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.emreeldemir.artbook.databinding.ActivityArtBinding
@@ -14,12 +16,17 @@ import com.google.android.material.snackbar.Snackbar
 class ArtActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArtBinding
+    private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
+    private lateinit var permissionLauncher : ActivityResultLauncher<String>
+    var selectedBitmap : Bitmap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityArtBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
+        registerLauncher()
 
     }
 
@@ -47,6 +54,21 @@ class ArtActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun registerLauncher() {
+        activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val intentFromResult = result.data
+
+                if(intentFromResult != null) {
+                    val imageData = intent.data
+
+                }
+            }
+        }
+    }
+
+
 }
 
 
