@@ -3,6 +3,8 @@ package com.emreeldemir.artbook
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -56,6 +58,7 @@ class ArtActivity : AppCompatActivity() {
     }
 
     private fun registerLauncher() {
+
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val intentFromResult = result.data
@@ -63,9 +66,28 @@ class ArtActivity : AppCompatActivity() {
                 if(intentFromResult != null) {
                     val imageData = intent.data
 
+                    if (imageData != null) {
+                        try {
+                            if (Build.VERSION.SDK_INT >= 28) {
+                                val source = ImageDecoder.createSource(this@ArtActivity.contentResolver, imageData!!)
+                                selectedBitmap = ImageDecoder.decodeBitmap(source)
+                                binding.imageView.setImageBitmap(selectedBitmap)
+                            } else {
+                                selectedBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageData)
+                                binding.imageView.setImageBitmap(selectedBitmap)
+                            }
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+
                 }
             }
         }
+
+
+
     }
 
 
