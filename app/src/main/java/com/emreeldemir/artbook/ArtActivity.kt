@@ -14,7 +14,7 @@ class ArtActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.
+
     }
 
     fun saveButtonClicked (view : View){
