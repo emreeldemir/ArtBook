@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.emreeldemir.artbook.databinding.ActivityArtBinding
 import com.google.android.material.snackbar.Snackbar
+import java.io.ByteArrayOutputStream
 
 class ArtActivity : AppCompatActivity() {
 
@@ -44,9 +45,13 @@ class ArtActivity : AppCompatActivity() {
 
             val smallBitmap = makeSmallerBitmap(selectedBitmap!!, 300)
 
-        } else {
-            Toast.makeText(this, "Please select an image", Toast.LENGTH_LONG).show()
+            // Convert bitmap to byte array
+            val outputStream = ByteArrayOutputStream()
+            smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+            val byteArray = outputStream.toByteArray()
+
         }
+
     }
 
     fun selectImage (view : View) {
