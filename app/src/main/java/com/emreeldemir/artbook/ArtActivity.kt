@@ -85,6 +85,10 @@ class ArtActivity : AppCompatActivity() {
 
     }
 
+    private fun makeSmallerBitmap(image : Bitmap) : Bitmap {
+
+    }
+
     private fun registerLauncher() {
 
         activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
