@@ -36,6 +36,17 @@ class ArtActivity : AppCompatActivity() {
 
     fun saveButtonClicked (view : View){
 
+        val artName = binding.artNameText.text.toString()
+        val artistName = binding.artistNameText.text.toString()
+        val year = binding.yearText.text.toString()
+
+        if(selectedBitmap != null) {
+
+            val smallBitmap = makeSmallerBitmap(selectedBitmap!!, 300)
+
+        } else {
+            Toast.makeText(this, "Please select an image", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun selectImage (view : View) {
