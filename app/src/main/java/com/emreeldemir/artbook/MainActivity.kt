@@ -10,11 +10,14 @@ import com.emreeldemir.artbook.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var artList: ArrayList<Art>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        artList = ArrayList<Art>()
 
         try {
             val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
@@ -24,8 +27,9 @@ class MainActivity : AppCompatActivity() {
             val idIx = cursor.getColumnIndex("id")
 
             while (cursor.moveToNext()){
-                println("Art Name: ${cursor.getString(artNameIx)}")
-                println("ID: ${cursor.getInt(idIx)}")
+                val name = cursor.getString(artNameIx)
+                val id = cursor.getInt(idIx)
+                val art = Art(name, id)
             }
 
 
