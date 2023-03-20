@@ -12,7 +12,7 @@
         android:text="Test"
         android:textSize="26sp"
         android:layout_margin="6dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:fontFamily="casual"
 
         >
