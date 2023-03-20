@@ -3,11 +3,16 @@ package com.emreeldemir.artbook
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.emreeldemir.artbook.databinding.ActivityArtBinding
 
 class ArtActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityArtBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_art)
+        binding = ActivityArtBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 
     fun saveButtonClicked (view : View){
