@@ -50,6 +50,31 @@ class ArtActivity : AppCompatActivity() {
             smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
             val byteArray = outputStream.toByteArray()
 
+            // Save to database
+
+            try {
+                val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
+                database.execSQL("CREATE TABLE IF NOT EXISTS arts (id INTEGER PRIMARY KEY, artname VARCHAR, artistname VARCHAR, year VARCHAR, image BLOB)")
+
+                val sqlString = "INSERT INTO arts (artname, artistname, year, image) VALUES (?, ?, ?, ?)"
+                val statement = database.compileStatement(sqlString)
+
+                statement.bindString(1, artName)
+                statement.bindString(2, artistName)
+                statement.bindString(3, year)
+                statement.bindBlob(4, byteArray)
+
+                statement.execute()
+
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+
+
+            val intent = Intent(this@ArtActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+
         }
 
     }
