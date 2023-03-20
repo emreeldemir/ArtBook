@@ -40,23 +40,48 @@ class ArtActivity : AppCompatActivity() {
 
     fun selectImage (view : View) {
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
-                Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", View.OnClickListener {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_MEDIA_IMAGES)){
+                    Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", View.OnClickListener {
+
+                        permissionLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
+
+                    }).show()
+
+                } else {
+                    permissionLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
+                }
+
+            } else {
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+            }
+        }
+
+        else {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", View.OnClickListener {
 
                         permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
-                }).show()
+                    }).show()
+
+                } else {
+                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
 
             } else {
-                permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
             }
-
-        } else {
-            val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            activityResultLauncher.launch(intentToGallery)
         }
+
+
 
     }
 
