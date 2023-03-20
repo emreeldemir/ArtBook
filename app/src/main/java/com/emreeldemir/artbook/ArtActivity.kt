@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,16 +45,17 @@ class ArtActivity : AppCompatActivity() {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
                 Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", View.OnClickListener {
 
+                        permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
                 }).show()
+
             } else {
-                // permission denied and don't ask again
-                ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+                permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
             }
+
         } else {
-            // permission granted
             val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intentToGallery, 2)
+            activityResultLauncher.launch(intentToGallery)
         }
 
     }
@@ -64,7 +67,7 @@ class ArtActivity : AppCompatActivity() {
                 val intentFromResult = result.data
 
                 if(intentFromResult != null) {
-                    val imageData = intent.data
+                    val imageData = intentFromResult.data
 
                     if (imageData != null) {
                         try {
@@ -86,7 +89,17 @@ class ArtActivity : AppCompatActivity() {
             }
         }
 
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
 
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                activityResultLauncher.launch(intentToGallery)
+
+            } else {
+
+                Toast.makeText(this@ArtActivity, "Permission Needed!", Toast.LENGTH_LONG).show()
+            }
+        }
 
     }
 
