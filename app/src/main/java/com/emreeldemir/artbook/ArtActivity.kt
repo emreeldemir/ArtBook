@@ -13,6 +13,8 @@ class ArtActivity : AppCompatActivity() {
         binding = ActivityArtBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        binding.
     }
 
     fun saveButtonClicked (view : View){
