@@ -16,6 +16,24 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        try {
+            val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
+
+            val cursor = database.rawQuery("SELECT * FROM arts", null)
+            val artNameIx = cursor.getColumnIndex("artname")
+            val idIx = cursor.getColumnIndex("id")
+
+            while (cursor.moveToNext()){
+                println("Art Name: ${cursor.getString(artNameIx)}")
+                println("ID: ${cursor.getInt(idIx)}")
+            }
+
+
+
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
